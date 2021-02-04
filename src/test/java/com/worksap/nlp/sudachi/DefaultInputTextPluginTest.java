@@ -28,6 +28,8 @@ import javax.json.Json;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.worksap.nlp.sudachi.dictionary.Grammar;
+
 public class DefaultInputTextPluginTest {
 
     // U+2F3C '⼼' should not be normalized to U+5FC3 '心'
@@ -39,7 +41,7 @@ public class DefaultInputTextPluginTest {
     DefaultInputTextPlugin plugin;
 
     @Before
-    public void setUp() {
+    public void setUp(Grammar grammar) {
         builder = new UTF8InputTextBuilder(ORIGINAL_TEXT, new MockGrammar());
         plugin = new DefaultInputTextPlugin();
         try {

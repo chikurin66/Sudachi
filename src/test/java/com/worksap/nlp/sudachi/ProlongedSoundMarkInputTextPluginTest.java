@@ -39,9 +39,13 @@ public class ProlongedSoundMarkInputTextPluginTest {
 
     @Before
     public void setUp() throws IOException {
+        Utils.copyResource(temporaryFolder.getRoot().toPath(), "/system.dic", "/user.dic", "/joinnumeric/char.def",
+                "/unk.def");
+        String path = temporaryFolder.getRoot().getPath();
+        String jsonString = Utils.readAllResource("/sudachi.json");
+        Dictionary dict = new DictionaryFactory().create(path, jsonString);
         plugin = new ProlongedSoundMarkInputTextPlugin();
 
-        String jsonString = Utils.readAllResource("/sudachi.json");
         Settings settings = Settings.parseSettings(null, jsonString);
         List<JsonObject> list = settings.getList("inputTextPlugin", JsonObject.class);
         for (JsonObject p : list) {
@@ -52,7 +56,7 @@ public class ProlongedSoundMarkInputTextPluginTest {
         }
 
         try {
-            plugin.setUp();
+            plugin.setUp(((JapaneseDictionary) dict).grammar);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
